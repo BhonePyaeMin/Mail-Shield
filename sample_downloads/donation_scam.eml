@@ -1,0 +1,31 @@
+Delivered-To: user@example.com
+Received: from mail.charity-appeal-donate.support (mail.charity-appeal-donate.support [198.51.100.44])
+    by mx.example.com with ESMTP id ab12cd34ef
+    for <user@example.com>;
+    Tue, 29 Sep 2026 10:15:00 +0000
+Received-SPF: fail (example.com: domain of donations@redcross-aid-relief.support does not designate 198.51.100.44 as permitted sender)
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=donations@redcross-aid-relief.support;
+    dkim=none;
+    dmarc=fail header.from=redcross-aid-relief.support
+Message-ID: <8821aa@charity-appeal-donate.support>
+From: Global Disaster Relief Fund <donations@redcross-aid-relief.support>
+Reply-To: Donations Team <support@charity-appeal-donate.support>
+Return-Path: <bounce@charity-appeal-donate.support>
+To: user@example.com
+Subject: URGENT: Flood victims need your help within 24 hours
+Date: Tue, 29 Sep 2026 10:14:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<html><body>
+<p>Dear Friend,</p>
+<p>Thousands of families have lost their homes in this week's catastrophic
+flooding. Your donation right now can save lives. Time is running out -
+please act now, this is a limited time emergency appeal.</p>
+<p>Donate securely through our verified partner:</p>
+<p><a href="http://charity-appeal-donate.support/pay?ref=9911">https://redcross.org/donate/flood-relief</a></p>
+<p>Every dollar helps. This is your immediate action required notice to
+save lives today.</p>
+<p>Global Disaster Relief Fund</p>
+</body></html>

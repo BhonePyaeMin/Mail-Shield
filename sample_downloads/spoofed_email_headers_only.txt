@@ -1,0 +1,28 @@
+Delivered-To: user@example.com
+Received: from [10.0.0.9] (unknown [10.0.0.9])
+    by mailbox.example.com with ESMTP id aa11bb22cc
+    for <user@example.com>;
+    Thu, 01 Oct 2026 03:15:00 +0000
+Received: from mail.example.org (mail.example.org [203.0.113.201])
+    by mx.example.com with ESMTP id dd33ee44ff
+    for <user@example.com>;
+    Wed, 30 Sep 2026 08:05:00 +0000
+Received: totally-malformed-received-header-with-no-structure
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=billing@example.org;
+    dkim=fail header.d=example.org header.s=sel1;
+    dmarc=fail header.from=example.org
+Authentication-Results: relay.example.net;
+    spf=fail smtp.mailfrom=billing@example.org;
+    dkim=pass header.d=paypa1-billing.example;
+    dmarc=fail header.from=example.org
+Message-ID: <invalid-message-id-format>
+Message-ID: <second-conflicting-id@example.org>
+From: Billing Department <billing@example.org>
+Reply-To: Billing Support <refunds@paypa1-billing.example>
+Return-Path: <bounce@micr0soft-updates.example>
+To: user@example.com
+Subject: =?UTF-8?B?##INVALIDBASE64$$notreallyencoded1234567890zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz?=
+Reply-To: another-reply-to@login.security.account.verify.paypa1-billing.example
+Date: Thu, 01 Oct 2026 03:15:00 +0000
+Content-Type: text/plain; charset="UTF-8"

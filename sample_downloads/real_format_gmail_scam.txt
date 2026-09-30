@@ -1,0 +1,44 @@
+Delivered-To: user@example.com
+Received: by 2002:a05:6402:5678:0:0:0:0 with SMTP id abcd1234csp7654321edb;
+        Mon, 28 Sep 2026 03:05:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1727514310; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ExampleArcSeal2Data1234567890abcdefExampleArcSeal2Data==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=xyz987;
+       spf=pass (google.com: domain of totally.real.person99@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=totally.real.person99@gmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmail.com
+Return-Path: <totally.real.person99@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com [209.85.220.41])
+        by mx.example.com with SMTPS id abcd1234csp7654321edb.10.1727514310123
+        for <user@example.com>
+        (Google Transport Security);
+        Mon, 28 Sep 2026 03:05:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of totally.real.person99@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.example.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=xyz987;
+       spf=pass (google.com: domain of totally.real.person99@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=totally.real.person99@gmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727514310; x=1728119110;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id;
+        bh=ExampleBodyHash2Data1234567890abcdef=;
+        b=ExampleDkimSig2Data1234567890abcdefExampleDkimSig21234567890abc
+         defExampleDkimSignature2Data==
+MIME-Version: 1.0
+From: Microsoft Account Team <totally.real.person99@gmail.com>
+Reply-To: Microsoft Account Team <totally.real.person99@gmail.com>
+Date: Mon, 28 Sep 2026 03:05:02 -0700
+Message-ID: <CAExampleMsgId2_1234567890abcdef@mail.gmail.com>
+Subject: Your Microsoft account has unusual sign-in activity
+To: user@example.com
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">
+<p>We detected unusual sign-in activity on your Microsoft account. Your
+account will be locked within 24 hours unless you verify your identity.</p>
+<p><a href="http://microsoft-account-verify.example/login">https://account.microsoft.com/security</a></p>
+<p>Please confirm your identity immediately to avoid suspension.</p>
+<p>Microsoft Account Team</p>
+</div>

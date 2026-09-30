@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}MailShield - Image Scan Result{% endblock %}
+{% block content %}
+
+<section class="dashboard-summary risk-{{ result.risk_level|lower }}">
+    <div class="dashboard-title">
+        <span class="dashboard-brand">MAILSHIELD</span>
+        <span class="dashboard-brand-sub">IMAGE SCAN (OCR)</span>
+    </div>
+    <div class="score-block">
+        <span class="score-label">SUSPICION SCORE</span>
+        <span class="score-value">{{ result.score }} / 100</span>
+        <span class="risk-badge risk-badge-{{ result.risk_level|lower }}">{{ result.risk_level }}</span>
+        <div class="score-bar-track">
+            <div class="score-bar-fill score-bar-fill-{{ result.risk_level|lower }}" style="width: {{ result.score }}%;"></div>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <p class="explanation-note">
+        This message was analyzed from a screenshot via OCR (text recognition), run
+        entirely locally &mdash; the image is never uploaded anywhere. This is a more
+        limited analysis than pasted headers: SPF/DKIM/DMARC results, the Received
+        routing chain, and a link's real destination are never visible in a
+        screenshot, so they cannot be checked here.
+    </p>
+    <p class="disclaimer">
+    {% if result.indicators %}
+        The recognized text contains several indicators commonly associated with
+        suspicious email. Review the findings below before trusting the message.
+    {% else %}
+        No major suspicious indicators were detected in the recognized text.
+        This does not guarantee that the email or its contents are safe &mdash;
+        especially since OCR only sees what was visibly rendered.
+    {% endif %}
+    </p>
+</section>
+
+<section class="card">
+    <h3>Guessed Sender (best-effort, from recognized text)</h3>
+    <table class="kv-table">
+        <tr><th>Display name</th><td>{{ result.guessed_sender_name or '(not detected)' }}</td></tr>
+        <tr><th>Address</th><td>{{ result.guessed_sender_address or '(not detected)' }}</td></tr>
+        <tr><th>Subject</th><td>{{ result.guessed_subject or '(not detected)' }}</td></tr>
+    </table>
+</section>
+
+<section class="card">
+    <h3>Indicators ({{ result.indicators|length }})</h3>
+    {% if result.indicators %}
+    <div class="indicator-list">
+        {% for indicator in result.indicators %}
+        <details class="indicator indicator-{{ indicator.severity|lower }}">
+            <summary>
+                <span class="severity-tag severity-{{ indicator.severity|lower }}">{{ indicator.severity }}</span>
+                <span class="indicator-title">{{ indicator.title }}</span>
+            </summary>
+            <div class="indicator-body">
+                <p>{{ indicator.description }}</p>
+                {% if indicator.what or indicator.why or indicator.check %}
+                <div class="explanation-panel">
+                    {% if indicator.what %}<p><strong>What happened?</strong> {{ indicator.what }}</p>{% endif %}
+                    {% if indicator.why %}<p><strong>Why does it matter?</strong> {{ indicator.why }}</p>{% endif %}
+                    {% if indicator.check %}<p><strong>What should you check?</strong> {{ indicator.check }}</p>{% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </details>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No indicators were raised for this image.</p>
+    {% endif %}
+</section>
+
+<details class="card collapsible">
+    <summary>Links found in recognized text</summary>
+    {% if result.links %}
+    <table class="kv-table">
+        <tr><th>Text / URL</th><th>Domain</th></tr>
+        {% for link in result.links %}
+        <tr><td>{{ link.href }}</td><td>{{ link.domain or '(unknown)' }}</td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No links were found in the recognized text.</p>
+    {% endif %}
+</details>
+
+<details class="card collapsible">
+    <summary>Recognized Text (raw OCR output)</summary>
+    <pre class="raw-headers">{{ result.ocr_text }}</pre>
+</details>
+
+<div class="back-link">
+    <a href="{{ url_for('index') }}" class="btn btn-ghost">&larr; Analyze Another Message</a>
+</div>
+
+{% endblock %}

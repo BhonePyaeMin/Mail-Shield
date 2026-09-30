@@ -1,0 +1,32 @@
+Delivered-To: user@example.com
+Received: from mail.msft-partner-events.net (mail.msft-partner-events.net [203.0.113.88])
+    by mx.example.com with ESMTP id gh56ij78kl
+    for <user@example.com>;
+    Wed, 30 Sep 2026 11:00:00 +0000
+Received-SPF: fail (example.com: domain of events@micr0soft-summit.net does not designate 203.0.113.88 as permitted sender)
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=events@micr0soft-summit.net;
+    dkim=fail header.d=micr0soft-summit.net header.s=sel1;
+    dmarc=fail header.from=micr0soft-summit.net
+Message-ID: <771029@msft-partner-events.net>
+From: Microsoft Partner Events <events@micr0soft-summit.net>
+Reply-To: Events Team <register@msft-partner-events.net>
+Return-Path: <bounce@msft-partner-events.net>
+To: user@example.com
+Subject: You're invited: Executive Leadership Summit 2026
+Date: Wed, 30 Sep 2026 10:59:40 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<html><body>
+<p>Dear Partner,</p>
+<p>You have been personally selected to attend our exclusive Executive
+Leadership Summit 2026, hosted in partnership with Microsoft. Seats are
+limited, so please confirm your identity and registration within 24 hours
+to secure your invitation.</p>
+<p>Register here:</p>
+<p><a href="http://micr0soft-summit.net/register?id=4471">https://microsoft.com/events/register</a></p>
+<p>We look forward to welcoming you. Failure to act will release your seat
+to another guest.</p>
+<p>Microsoft Partner Events Team</p>
+</body></html>

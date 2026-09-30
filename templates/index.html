@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}MailShield - Email Header Analyzer{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>MAILSHIELD</h1>
+    <h2>Email Header Analyzer</h2>
+    <p class="subtitle">Analyze email headers for spoofing, phishing, and authentication anomalies.</p>
+</section>
+
+<section class="card">
+    <form id="analyze-form" action="{{ url_for('analyze') }}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="headers" class="field-label">Raw Email Headers</label>
+        <textarea id="headers" name="headers" rows="16"
+                  placeholder="Paste raw email headers here..."></textarea>
+
+        <div class="toolbar">
+            <button type="submit" class="btn btn-primary">Analyze Headers</button>
+
+            <div class="dropdown">
+                <button type="button" id="load-sample-btn" class="btn btn-secondary">Load Sample &#9662;</button>
+                <div class="dropdown-menu" id="sample-menu" hidden>
+                    <button type="button" class="dropdown-item" data-sample="safe">Sample 1 &mdash; Normal (safe_email.txt)</button>
+                    <button type="button" class="dropdown-item" data-sample="phishing">Sample 2 &mdash; Suspicious (phishing_email.txt)</button>
+                    <button type="button" class="dropdown-item" data-sample="spoofed">Sample 3 &mdash; Spoofed (spoofed_email.txt)</button>
+                </div>
+            </div>
+
+            <button type="button" id="clear-btn" class="btn btn-ghost">Clear</button>
+        </div>
+
+        <div class="upload-row">
+            <label for="file" class="field-label">Or upload a .eml / .txt file (max 1 MB), or a
+            screenshot of an email &mdash; .png / .jpg / .webp / .gif / .bmp (max 5 MB)</label>
+            <input type="file" id="file" name="file" accept=".eml,.txt,.png,.jpg,.jpeg,.webp,.gif,.bmp">
+            <p id="upload-error" class="field-error" hidden></p>
+            <p class="explanation-note">Screenshot scanning uses local OCR (text recognition) only
+            &mdash; the image is never uploaded anywhere, and it cannot check SPF/DKIM/DMARC or a
+            link's real destination, since a screenshot never shows that.</p>
+        </div>
+    </form>
+</section>
+
+<section class="card privacy-card">
+    <h3>Privacy</h3>
+    <p>Analysis is performed locally. Email headers are not uploaded to external
+    services by this application. Nothing you paste or upload is stored permanently.</p>
+</section>
+{% endblock %}

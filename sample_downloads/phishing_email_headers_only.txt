@@ -1,0 +1,23 @@
+Delivered-To: user@example.com
+Received: from mx.example.com (mx.example.com [203.0.113.5])
+    by mailbox.example.com with ESMTPS id zz99yy88xx
+    for <user@example.com>;
+    Wed, 30 Sep 2026 14:12:55 +0000
+Received: from mail-out.suspicious-example.net (mail-out.suspicious-example.net [198.51.100.77])
+    by mx.example.com with ESMTP id ww77vv66uu
+    for <user@example.com>;
+    Wed, 30 Sep 2026 14:12:10 +0000
+Received-SPF: fail (example.com: domain of security@example.com does not designate 198.51.100.77 as permitted sender)
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=security@example.com;
+    dkim=none;
+    dmarc=fail header.from=example.com
+Message-ID: <9f8e7d6c5b4a@login.security.account.verify.suspicious-example.net>
+From: Account Security Team <security@example.com>
+Reply-To: Security Support <support@secure-paypal-login.example>
+Return-Path: <bounce@suspicious-example.net>
+To: User <user@example.com>
+Subject: Urgent: Verify your account within 24 hours
+Date: Wed, 30 Sep 2026 14:12:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"

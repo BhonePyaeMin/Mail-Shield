@@ -1,0 +1,67 @@
+Delivered-To: user@example.com
+Received: by 2002:a05:6402:1a8b:0:0:0:0 with SMTP id ay11csp1234567edb;
+        Mon, 28 Sep 2026 07:15:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+X-Received: by 2002:a17:906:1234:b0:abc:def0:1234 with SMTP id x20-20020a170906123400b00abcdef01234mr1234567ejx.10.1727528122456;
+        Mon, 28 Sep 2026 07:15:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1727528122; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ExampleArcSealBase64Data1234567890abcdefExampleArcSealBase64Data==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=ExampleBodyHashBase64Data1234567890abcdef=;
+        b=ExampleArcMessageSigBase64Data1234567890abcdefExampleArcMessage==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=abc123def;
+       spf=pass (google.com: domain of sender.name@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=sender.name@gmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmail.com
+Return-Path: <sender.name@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com [209.85.220.41])
+        by mx.example.com with SMTPS id x20-20020a170906123400b00abcdef01234mr1234567ejx.10.1727528122456
+        for <user@example.com>
+        (Google Transport Security);
+        Mon, 28 Sep 2026 07:15:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of sender.name@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.example.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=abc123def;
+       spf=pass (google.com: domain of sender.name@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=sender.name@gmail.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727528122; x=1728132922;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ExampleBodyHashBase64Data1234567890abcdef=;
+        b=ExampleDkimSignatureBase64Data1234567890abcdefExampleDkimSig1234
+         567890abcdefExampleDkimSignatureData==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727528122;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ExampleBodyHashBase64Data1234567890abcdef=;
+        b=ExampleGoogleDkimBase64Data1234567890abcdefExampleGoogleDkim1234==
+X-Gm-Message-State: AOJu0YyExampleStateData1234567890abcdefExampleState==
+MIME-Version: 1.0
+From: Jane Example <sender.name@gmail.com>
+Date: Mon, 28 Sep 2026 07:15:12 -0700
+Message-ID: <CAExampleMessageId1234567890abcdef@mail.gmail.com>
+Subject: Notes from today's meeting
+To: user@example.com
+Content-Type: multipart/alternative; boundary="000000000000abc123def456"
+
+--000000000000abc123def456
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+
+Thanks for joining today's call. Attached are the notes we discussed;
+let me know if I missed anything.
+
+Best,
+Jane
+
+--000000000000abc123def456
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">Hi,<br><br>Thanks for joining today&#39;s call. Attached are the notes we discussed; let me know if I missed anything.<br><br>Best,<br>Jane</div>
+
+--000000000000abc123def456--

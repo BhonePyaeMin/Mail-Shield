@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}MailShield - Analysis Result{% endblock %}
+{% block content %}
+
+<section class="dashboard-summary risk-{{ analysis.risk_level|lower }}">
+    <div class="dashboard-title">
+        <span class="dashboard-brand">MAILSHIELD</span>
+        <span class="dashboard-brand-sub">EMAIL HEADER ANALYZER</span>
+    </div>
+    <div class="score-block">
+        <span class="score-label">SUSPICION SCORE</span>
+        <span class="score-value">{{ analysis.score }} / 100</span>
+        <span class="risk-badge risk-badge-{{ analysis.risk_level|lower }}">{{ analysis.risk_level }}</span>
+        <div class="score-bar-track">
+            <div class="score-bar-fill score-bar-fill-{{ analysis.risk_level|lower }}" style="width: {{ analysis.score }}%;"></div>
+        </div>
+    </div>
+    <div class="auth-row">
+        <div class="auth-cell auth-{{ analysis.authentication.spf }}">
+            <span class="auth-name">SPF</span>
+            <span class="auth-result">{{ analysis.authentication.spf|upper }}</span>
+        </div>
+        <div class="auth-cell auth-{{ analysis.authentication.dkim }}">
+            <span class="auth-name">DKIM</span>
+            <span class="auth-result">{{ analysis.authentication.dkim|upper }}</span>
+        </div>
+        <div class="auth-cell auth-{{ analysis.authentication.dmarc }}">
+            <span class="auth-name">DMARC</span>
+            <span class="auth-result">{{ analysis.authentication.dmarc|upper }}</span>
+        </div>
+    </div>
+</section>
+
+<section class="card">
+    <p class="disclaimer">
+    {% if analysis.indicators %}
+        The analyzed headers contain several indicators commonly associated with
+        suspicious email. Review the findings below before trusting the message.
+    {% else %}
+        No major suspicious indicators were detected in the analyzed headers.
+        This does not guarantee that the email or its contents are safe.
+    {% endif %}
+    </p>
+</section>
+
+<section class="card">
+    <h3>Sender</h3>
+    <table class="kv-table">
+        <tr><th>From</th><td>{{ analysis.basic.from or '(none)' }}</td></tr>
+        <tr><th>Reply-To</th><td>{{ analysis.basic.reply_to or '(none)' }}</td></tr>
+        <tr><th>Return-Path</th><td>{{ analysis.basic.return_path or '(none)' }}</td></tr>
+        <tr><th>Subject</th><td>{{ analysis.basic.subject or '(none)' }}</td></tr>
+        <tr><th>Date</th><td>{{ analysis.basic.date or '(none)' }}</td></tr>
+    </table>
+</section>
+
+<section class="card">
+    <h3>Indicators ({{ analysis.indicators|length }})</h3>
+    {% if analysis.indicators %}
+    <div class="indicator-list">
+        {% for indicator in analysis.indicators %}
+        <details class="indicator indicator-{{ indicator.severity|lower }}">
+            <summary>
+                <span class="severity-tag severity-{{ indicator.severity|lower }}">{{ indicator.severity }}</span>
+                <span class="indicator-title">{{ indicator.title }}</span>
+            </summary>
+            <div class="indicator-body">
+                <p>{{ indicator.description }}</p>
+                {% if indicator.what or indicator.why or indicator.check %}
+                <div class="explanation-panel">
+                    {% if indicator.what %}<p><strong>What happened?</strong> {{ indicator.what }}</p>{% endif %}
+                    {% if indicator.why %}<p><strong>Why does it matter?</strong> {{ indicator.why }}</p>{% endif %}
+                    {% if indicator.check %}<p><strong>What should you check?</strong> {{ indicator.check }}</p>{% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </details>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No indicators were raised for this message.</p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h3>Export Report</h3>
+    <form method="POST" class="export-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <textarea name="headers" hidden>{{ raw_headers }}</textarea>
+        <button type="submit" formaction="{{ url_for('export_report', fmt='txt') }}" class="btn btn-secondary">Export as TXT</button>
+        <button type="submit" formaction="{{ url_for('export_report', fmt='json') }}" class="btn btn-secondary">Export as JSON</button>
+    </form>
+</section>
+
+<h3 class="section-divider">Technical Details</h3>
+
+<details class="card collapsible">
+    <summary>Basic Headers</summary>
+    <table class="kv-table">
+        <tr><th>From</th><td>{{ analysis.basic.from or '(none)' }}</td></tr>
+        <tr><th>To</th><td>{{ analysis.basic.to or '(none)' }}</td></tr>
+        <tr><th>CC</th><td>{{ analysis.basic.cc or '(none)' }}</td></tr>
+        <tr><th>Reply-To</th><td>{{ analysis.basic.reply_to or '(none)' }}</td></tr>
+        <tr><th>Subject</th><td>{{ analysis.basic.subject or '(none)' }}</td></tr>
+        <tr><th>Date</th><td>{{ analysis.basic.date or '(none)' }}</td></tr>
+        <tr><th>Message-ID</th><td>{{ analysis.basic.message_id or '(none)' }}</td></tr>
+        <tr><th>Return-Path</th><td>{{ analysis.basic.return_path or '(none)' }}</td></tr>
+        <tr><th>MIME-Version</th><td>{{ analysis.basic.mime_version or '(none)' }}</td></tr>
+        <tr><th>Content-Type</th><td>{{ analysis.basic.content_type or '(none)' }}</td></tr>
+    </table>
+</details>
+
+<details class="card collapsible">
+    <summary>Authentication Results</summary>
+    <table class="kv-table">
+        <tr><th>SPF</th><td>{{ analysis.authentication.spf|upper }}</td></tr>
+        <tr><th>DKIM</th><td>{{ analysis.authentication.dkim|upper }}</td></tr>
+        <tr><th>DKIM Signing Domain</th><td>{{ analysis.authentication.dkim_signing_domain or '(none)' }}</td></tr>
+        <tr><th>DKIM Selector</th><td>{{ analysis.authentication.dkim_selector or '(none)' }}</td></tr>
+        <tr><th>DMARC</th><td>{{ analysis.authentication.dmarc|upper }}</td></tr>
+    </table>
+    <div class="explanation-panel">
+        <p><strong>SPF</strong> PASS means the sending server was authorized according to the SPF
+        result contained in the analyzed headers. It does not by itself prove that the message is safe.</p>
+        <p><strong>DKIM</strong> results shown here are as <em>reported by the headers</em>, not an
+        independent cryptographic verification performed by this tool.</p>
+        <p><strong>DMARC</strong> combines SPF/DKIM with domain alignment to indicate whether the
+        message meets the sending domain's published authentication policy.</p>
+    </div>
+</details>
+
+<details class="card collapsible">
+    <summary>Sender Analysis</summary>
+    <table class="kv-table">
+        <tr><th>From</th><td>{{ analysis.basic.from or '(none)' }}</td></tr>
+        <tr><th>Reply-To</th><td>{{ analysis.basic.reply_to or '(none)' }}</td></tr>
+        <tr><th>Return-Path</th><td>{{ analysis.basic.return_path or '(none)' }}</td></tr>
+    </table>
+</details>
+
+<details class="card collapsible">
+    <summary>Domain Analysis</summary>
+    <table class="kv-table">
+        <tr><th>From domain</th><td>{{ analysis.domain_analysis.from_domain or '(none)' }}</td></tr>
+        <tr><th>Reply-To domain</th><td>{{ analysis.domain_analysis.reply_to_domain or '(none)' }}</td></tr>
+        <tr><th>Return-Path domain</th><td>{{ analysis.domain_analysis.return_path_domain or '(none)' }}</td></tr>
+        <tr><th>DKIM signing domain</th><td>{{ analysis.domain_analysis.dkim_signing_domain or '(none)' }}</td></tr>
+        <tr><th>Message-ID domain</th><td>{{ analysis.domain_analysis.message_id_domain or '(none)' }}</td></tr>
+    </table>
+</details>
+
+<details class="card collapsible">
+    <summary>Content &amp; Link Analysis</summary>
+    <p class="explanation-note">Static text/HTML parsing only &mdash; MailShield never
+    visits a link automatically.</p>
+    {% if not analysis.content_analysis.has_body %}
+    <p>No message body was supplied (headers-only input), so there is nothing to scan for links.</p>
+    {% elif analysis.content_analysis.links %}
+    <table class="kv-table">
+        <tr><th>Displayed As</th><th>Destination</th><th>Domain</th><th>Note</th></tr>
+        {% for link in analysis.content_analysis.links %}
+        <tr>
+            <td>{{ link.display_text or '(raw URL)' }}</td>
+            <td>{{ link.href }}</td>
+            <td>{{ link.domain or '(unknown)' }}</td>
+            <td>{{ link.classification or '' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No links were found in the message body.</p>
+    {% endif %}
+
+    {% if analysis.content_analysis.attachments %}
+    <h4>Attachments (metadata only &mdash; never opened)</h4>
+    <ul class="anomaly-list">
+        {% for filename in analysis.content_analysis.attachments %}
+        <li>{{ filename }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</details>
+
+<details class="card collapsible">
+    <summary>IP Analysis</summary>
+    {% set ips = analysis.hops|selectattr('ip_address')|list %}
+    {% if ips %}
+    <table class="kv-table">
+        <tr><th>Hop</th><th>IP Address</th><th>Classification</th></tr>
+        {% for hop in ips %}
+        <tr><td>{{ hop.hop_number }}</td><td>{{ hop.ip_address }}</td><td>{{ hop.ip_classification }}</td></tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No IP addresses were found in the Received chain.</p>
+    {% endif %}
+</details>
+
+<details class="card collapsible">
+    <summary>Received Chain &mdash; Mail Routing (Total Hops: {{ analysis.total_hops }})</summary>
+    {% if analysis.hops %}
+    <div class="hop-list">
+        {% for hop in analysis.hops %}
+        <div class="hop {% if hop.malformed %}hop-malformed{% endif %}">
+            <div class="hop-header">Hop {{ hop.hop_number }}{% if hop.malformed %} &mdash; malformed{% endif %}</div>
+            <table class="kv-table">
+                <tr><th>From</th><td>{{ hop.from_host or '(unknown)' }}</td></tr>
+                <tr><th>IP</th><td>{{ hop.ip_address or '(none)' }} {% if hop.ip_classification %}({{ hop.ip_classification }}){% endif %}</td></tr>
+                <tr><th>By</th><td>{{ hop.by_host or '(unknown)' }}</td></tr>
+                <tr><th>Protocol</th><td>{{ hop.protocol or '(unknown)' }}</td></tr>
+                <tr><th>Timestamp</th><td>{{ hop.timestamp_str or '(none)' }}</td></tr>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No Received headers were found.</p>
+    {% endif %}
+</details>
+
+<details class="card collapsible">
+    <summary>Header Anomalies</summary>
+    <ul class="anomaly-list">
+        {% for h in analysis.header_anomalies.missing_common_headers %}
+        <li>&#9888; Missing common header: {{ h }}</li>
+        {% endfor %}
+        {% for d in analysis.header_anomalies.duplicate_headers %}
+        <li>&#9888; Duplicate {{ d.header }} header ({{ d.count }} occurrences)</li>
+        {% endfor %}
+        {% for b in analysis.header_anomalies.bracket_mismatches %}
+        <li>&#9888; Malformed {{ b.header }} header (unbalanced brackets)</li>
+        {% endfor %}
+        {% for l in analysis.header_anomalies.malformed_lines %}
+        <li>&#9888; Malformed header line at line {{ l.line_number }}</li>
+        {% endfor %}
+        {% for lh in analysis.header_anomalies.long_headers %}
+        <li>&#9888; Extremely long {{ lh.header }} header ({{ lh.length }} chars)</li>
+        {% endfor %}
+        {% for e in analysis.header_anomalies.suspicious_encoded_headers %}
+        <li>&#9888; Suspicious encoded value in {{ e.header }} header</li>
+        {% endfor %}
+        {% if not (analysis.header_anomalies.missing_common_headers or analysis.header_anomalies.duplicate_headers
+                   or analysis.header_anomalies.bracket_mismatches or analysis.header_anomalies.malformed_lines
+                   or analysis.header_anomalies.long_headers or analysis.header_anomalies.suspicious_encoded_headers) %}
+        <li>No header anomalies detected.</li>
+        {% endif %}
+    </ul>
+</details>
+
+<details class="card collapsible">
+    <summary>Raw Headers</summary>
+    <pre class="raw-headers">{{ raw_headers }}</pre>
+</details>
+
+<div class="back-link">
+    <a href="{{ url_for('index') }}" class="btn btn-ghost">&larr; Analyze Another Message</a>
+</div>
+
+{% endblock %}

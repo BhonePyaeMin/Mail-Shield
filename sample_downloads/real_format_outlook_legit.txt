@@ -1,0 +1,46 @@
+Delivered-To: user@example.com
+Received: from BN8NAM12FT020.eop-nam12.prod.protection.outlook.com (2603:10b6:408:e0::0)
+ by BN8NAM12HT001.eop-nam12.prod.protection.outlook.com with HTTPS;
+ Mon, 28 Sep 2026 14:20:11 +0000
+Received: from BN8PR15MB2764.namprd15.prod.outlook.com (2603:10b6:408:70::0)
+ by BN8NAM12FT020.mail.protection.outlook.com (2603:10b6:408:e0:cafe::0)
+ with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384)
+ id 15.20.1234.56 via Frontend Transport;
+ Mon, 28 Sep 2026 14:20:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ExampleMicrosoftArcSealBase64Data1234567890abcdefExampleMicrosoftArc==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:To:MIME-Version:X-MS-Exchange-Organization-Network-Message-Id;
+ bh=ExampleBodyHashData1234567890abcdef=;
+ b=ExampleMicrosoftArcMsgSigData1234567890abcdefExampleMicrosoftArc1234==
+Authentication-Results: spf=pass (sender IP is 40.107.22.60)
+ smtp.mailfrom=colleague@example-partner.com; dkim=pass (signature was
+ verified) header.d=example-partner.com;dmarc=pass action=none
+ header.from=example-partner.com;compauth=pass reason=100
+Received-SPF: Pass (protection.outlook.com: domain of example-partner.com
+ designates 40.107.22.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.107.22.60
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=example-partner.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:To:MIME-Version:Content-Type;
+ bh=ExampleBodyHashData1234567890abcdef=;
+ b=ExampleOutlookDkimSigData1234567890abcdefExampleOutlookDkimSig1234==
+X-MS-Exchange-Organization-AuthSource: BN8NAM12FT020.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-Forefront-Antispam-Report: CIP:40.107.22.60;CTRY:US;LANG:en;SCL:1;SRV:;
+ IPV:NLI;SFV:NSPM;H:MW4PR15MB1234.namprd15.prod.outlook.com;PTR:;
+From: Colleague Name <colleague@example-partner.com>
+To: user@example.com
+Subject: Q4 planning doc - review by Friday
+Date: Mon, 28 Sep 2026 14:20:05 +0000
+Message-ID: <BN8PR15MB2764ExampleMsgId1234567890@namprd15.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+
+Hi,
+
+Attached is the Q4 planning doc for review. Please send comments by Friday.
+
+Thanks,
+Colleague

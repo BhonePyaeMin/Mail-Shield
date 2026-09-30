@@ -1,0 +1,41 @@
+Delivered-To: user@example.com
+Received: from mx.example.com (mx.example.com [203.0.113.5])
+    by mailbox.example.com with ESMTPS id ab12cd34ef
+    for <user@example.com>;
+    Tue, 29 Sep 2026 09:31:40 +0000
+Received: from mail.example.com (mail.example.com [198.51.100.20])
+    by mx.example.com with ESMTP id gh56ij78kl
+    for <user@example.com>;
+    Tue, 29 Sep 2026 09:31:05 +0000
+Received: from smtp-relay.example.com (smtp-relay.example.com [192.0.2.15])
+    by mail.example.com with ESMTP id mn90op12qr
+    for <user@example.com>;
+    Tue, 29 Sep 2026 09:30:42 +0000
+Received-SPF: pass (example.com: domain of notifications@example.com designates 192.0.2.15 as permitted sender)
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=notifications@example.com;
+    dkim=pass header.d=example.com header.s=mail2026;
+    dmarc=pass header.from=example.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=example.com;
+    s=mail2026; h=from:to:subject:date:message-id;
+    bh=aGVsbG8td29ybGQtZXhhbXBsZQ==;
+    b=ZmFrZXNpZ25hdHVyZWRhdGFmb3JkZW1vcHVycG9zZXNvbmx5MTIzNDU2Nzg5
+Message-ID: <20260929093030.mn90op12qr@example.com>
+From: Example Notifications <notifications@example.com>
+Reply-To: Example Notifications <notifications@example.com>
+Return-Path: <notifications@example.com>
+To: User <user@example.com>
+Subject: Your monthly account statement is ready
+Date: Tue, 29 Sep 2026 09:30:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+Your monthly account statement for September 2026 is now available.
+You can review it at any time by visiting https://example.com/account/statement
+directly in your browser.
+
+Thank you for being a customer.
+
+-- Example Notifications

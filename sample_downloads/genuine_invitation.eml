@@ -1,0 +1,33 @@
+Delivered-To: user@example.com
+Received: from mail.example.com (mail.example.com [198.51.100.30])
+    by mx.example.com with ESMTP id mn90op12qr
+    for <user@example.com>;
+    Mon, 28 Sep 2026 09:00:00 +0000
+Received-SPF: pass (example.com: domain of events@example.com designates 198.51.100.30 as permitted sender)
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=events@example.com;
+    dkim=pass header.d=example.com header.s=sel2026;
+    dmarc=pass header.from=example.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=example.com;
+    s=sel2026; h=from:to:subject:date:message-id;
+    bh=ZGVtb2JvZHloYXNoZXhhbXBsZQ==;
+    b=ZGVtb3NpZ25hdHVyZWRhdGFmb3JkZW1vcHVycG9zZXNvbmx5MTIzNDU2Nzg5
+Message-ID: <20261001090000.mn90op12qr@example.com>
+From: Example Corp Events <events@example.com>
+Reply-To: Example Corp Events <events@example.com>
+Return-Path: <events@example.com>
+To: User <user@example.com>
+Subject: You're invited: Example Corp Annual Partner Conference
+Date: Mon, 28 Sep 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<html><body>
+<p>Dear Partner,</p>
+<p>We would like to invite you to our Annual Partner Conference on
+November 12, 2026. This year's theme is "Building Together."</p>
+<p>Please register using the link below by October 20 to reserve your seat:</p>
+<p><a href="https://example.com/conference/register">https://example.com/conference/register</a></p>
+<p>We look forward to seeing you there.</p>
+<p>Example Corp Events Team</p>
+</body></html>

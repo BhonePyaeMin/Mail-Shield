@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}MailShield{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="{{ url_for('index') }}" class="brand">
+            <span class="brand-mark">&#128737;</span>
+            <span class="brand-text">
+                <span class="brand-name">MAILSHIELD</span>
+                <span class="brand-sub">Email Header Analyzer</span>
+            </span>
+        </a>
+        <span class="privacy-badge" title="Analysis runs locally; nothing is uploaded to external services">
+            Local &amp; Offline
+        </span>
+    </div>
+</header>
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>MailShield is a local, offline header-analysis tool. It does not send email,
+        execute attachments, or contact external reputation services.
+        Header analysis alone cannot guarantee that a message is safe or malicious.</p>
+    </div>
+</footer>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
